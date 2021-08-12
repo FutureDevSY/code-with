@@ -14,12 +14,13 @@
             :_userName = "login.userName"
             :_selectCourse = "selectCourse"
             @_courseClose = "courseClose"
+            @_loginOpen = "loginOpen"
         ></CoursePopup>
         <Header 
             :_loginPopupState = "loginPopupState"
             :_loginState = "login.loginState"
             @_loginOpen="loginOpen"
-            @_logout = "logout"
+            @_logout = "changeLoginState"
         ></Header>
         <div class="guide">
             <div class="greeting">
@@ -32,21 +33,21 @@
         <div class="course-container">
             <div class="course" style="align-self: flex-end;">
               <img class="course-moon" src="../assets/img_cresent-moon-white.svg" alt="">
-              <div class="course-box" @click="courseOpen(html)">
+              <div class="course-box" @click="courseOpen('html')">
                   <img src="../assets/course/html.svg" alt="">
                   <div class="course-name">HTML<br>Course</div>
               </div>
             </div>
             <div class="course" style="align-self: center">
               <img class="course-moon" src="../assets/img_half-moon-white.svg" alt="">
-              <div class="course-box" @click="courseOpen(css)">
+              <div class="course-box" @click="courseOpen('css')">
                   <img src="../assets/course/css.svg" alt="">
                   <div class="course-name">CSS<br>Course</div>
               </div>
             </div>
             <div class="course" style="align-self: flex-start">
               <img class="course-moon" src="../assets/img_full-moon-white.svg" alt="">
-              <div class="course-box" @click="courseOpen(javascript)">
+              <div class="course-box" @click="courseOpen('javascript')">
                   <img src="../assets/course/js.svg" alt="">
                   <div class="course-name">JavaScript<br>Course</div>
               </div>
@@ -73,6 +74,8 @@ export default {
   },
   created() {
     this.login.loginState = JSON.parse(localStorage.getItem('loginState'));
+    this.login.userName = localStorage.getItem('userName');
+    
   },
   data() {
     return {
@@ -103,16 +106,8 @@ export default {
     courseClose() {
       this.coursePopupState = 0;
     },
-    changeLoginState(loginState, userName) {
-      this.login.loginState = loginState; //loginState 1로 변경(로그인 완료)
+    changeLoginState() {
       this.$router.go(); //변경된 loginState의 값으로 세팅하기 위해 새로 고침
-      console.log("loginState : ", this.login.loginState);
-      this.login.userName = userName + '님'; //환영문구를 welcome!에서 유저이름!으로 변경
-    },
-    logout(loginState) {
-      this.login.loginState = loginState; //loginState 0으로 변경(로그아웃)
-      this.login.userName = "welcome";
-      console.log("로그아웃합니다. / loginState : ", this.login.loginState);
     }
   }
 }
