@@ -8,6 +8,7 @@
             <router-link class="menu" to="/Signup">Sign up</router-link>
             <img class="nav-menu-division" src="../../assets/nav-menu-division.svg" alt="">
             <button class="menu" @click="openLoginPopup" v-if="_loginState == 0">Login</button>
+            <button class="menu" @click="openLoginPopup" v-if="_loginState == undefined">Login</button>
             <button class="menu" @click="logout" v-if="_loginState == 1">Logout</button>
             <img class="nav-menu-division" v-if="_loginState == 1" src="../../assets/nav-menu-division.svg" alt="">
             <!-- 로그인이 된 경우 마이페이지로 이동 -->
