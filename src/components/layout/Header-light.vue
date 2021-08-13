@@ -5,12 +5,8 @@
             <img id="logo-img" src="../../assets/sub-page-logo.svg" alt="">
         </div>
         <div class="nav-menu">
-            <router-link class="menu-light" v-if="loginState == 0" to="/Signup">Sign up</router-link>
-            <img class="nav-menu-division" v-if="loginState == 0" src="../../assets/nav-menu-division-dark.svg" alt="">
             <button class="menu-light" @click="openLoginPopup" v-if="loginState == 0">Login</button>
             <button class="menu-light" @click="logout" v-if="loginState == 1">Logout</button>
-            <img class="nav-menu-division" v-if="loginState == 1" src="../../assets/nav-menu-division-dark.svg" alt="">
-            <router-link class="menu-light" to="/Mypage" v-if="loginState == 1">My page</router-link>
         </div>
     </div>
 
@@ -19,17 +15,17 @@
 <script>
 import axios from "axios"
 
-
 export default {
     name: "header-light",
     props : ['_loginPopupState'],
     components : {
-
+        
     },
     data() {
         return {
             loginPopupState : this._loginPopupState, //0은 닫힌 상태, 1은 열린 상태
-            loginState : 0
+            loginState : 0,
+            navMenuPopupState : 0, //0은 메뉴 팝업이 닫힌 상태, 1은 팝업이 열린 상태
         }
     },
     created() {
@@ -57,56 +53,91 @@ export default {
                     console.log(err);
                 })
             }
+        },
+        openNavMenuPopup() {
+            console.log("메뉴 창 열림");
+            this.navMenuPopupState = 1;
+        },
+        closeNavMenuPopup() {
+            console.log("메뉴 창 닫힘");
+            this.navMenuPopupState = 0;
         }
-    }
+    },
 }
 </script>
 
 <style>
-    body {
-        margin: 0px;
+body {
+    margin: 0px;
 
-    }
-    div{
-        box-sizing: border-box;
-    }
-    a {
-        text-decoration: none;
-    }
-    button {
-        background-color: rgba(0, 0, 0, 0);
-        border: 0;
-        outline: 0;
-        cursor: pointer;
-    }
-    #header-light {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%; height: 70px;
-        background-color: white;
-        border-radius: 20px;
-        padding: 0px 30px;
-        font-weight: 500;
-        border: thin solid #e2e2e2;
-    }
-    #header-light #logo {
-        display: flex;
-        align-items: center;
-    }
-    #header-light #logo-letter {
-        width: 110px;
-    }
-    #header-light #logo-img {
-        width: 100px;
-        margin-left: 30px;
-    }
+}
+div{
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+button {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+#header-light {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; height: 70px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 0px 30px;
+    font-weight: 500;
+    border: thin solid #e2e2e2;
+}
+#header-light #logo {
+    display: flex;
+    align-items: center;
+}
+#header-light #logo-letter {
+    width: 110px;
+}
+#header-light #logo-img {
+    width: 100px;
+    margin-left: 30px;
+}
 
-    #header-light .nav-menu .menu-light {
-        color: #4C1993;
-        font-size: 18px;
+#header-light .nav-menu .menu-light {
+    color: #4C1993;
+    font-size: 18px;
+}
+#header-light .nav-menu-open {
+    display: none;
+}
+#header-light .nav-menu-close {
+    display: none;
+}
+#header-light .navMenuPopup {
+    display: none;
+}
+/* @media screen and (max-width: 700px){
+    #header-light .navMenuPopup {
+        display: flex;
     }
-    #header-light .nav-menu .nav-menu-division {
-        margin: 0px 14px;
+    #header-light .nav-menu {
+        display: none;
     }
+    #header-light .nav-menu-open {
+        display: block;
+        width: 28px; height: 28px;
+        padding: 0px;
+    }
+    #header-light .nav-menu-close {
+        display: block;
+        width: 24px; height: 24px;
+        padding: 0px;
+    }
+    #header-light .nav-menu-open img{
+        width: 100%;
+    }
+} */
 </style>
