@@ -211,9 +211,6 @@ h4 {
   body {
     overflow-y: scroll;
   }
-  #header-light .nav-menu {
-    display: none;
-  }
   .guide {
     display: flex;
     justify-content: center;
