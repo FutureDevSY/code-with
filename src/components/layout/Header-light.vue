@@ -5,17 +5,20 @@
             <img id="logo-img" src="../../assets/sub-page-logo.svg" alt="">
         </div>
         <div class="nav-menu">
-            <router-link class="menu-light" to="/Signup">Sign up</router-link>
-            <img class="nav-menu-division" src="../../assets/nav-menu-division-dark.svg" alt="">
-            <button class="menu-light" @click="openLoginPopup">Login</button>
-            <img class="nav-menu-division" src="../../assets/nav-menu-division-dark.svg" alt="">
-            <router-link class="menu-light" to="/Mypage">My page</router-link>
+            <router-link class="menu-light" v-if="loginState == 0" to="/Signup">Sign up</router-link>
+            <img class="nav-menu-division" v-if="loginState == 0" src="../../assets/nav-menu-division-dark.svg" alt="">
+            <button class="menu-light" @click="openLoginPopup" v-if="loginState == 0">Login</button>
+            <button class="menu-light" @click="logout" v-if="loginState == 1">Logout</button>
+            <img class="nav-menu-division" v-if="loginState == 1" src="../../assets/nav-menu-division-dark.svg" alt="">
+            <router-link class="menu-light" to="/Mypage" v-if="loginState == 1">My page</router-link>
         </div>
     </div>
 
 </template>
 
 <script>
+import axios from "axios"
+
 
 export default {
     name: "header-light",
@@ -25,14 +28,35 @@ export default {
     },
     data() {
         return {
-            loginPopupState : this._loginPopupState //0은 닫힌 상태, 1은 열린 상태
+            loginPopupState : this._loginPopupState, //0은 닫힌 상태, 1은 열린 상태
+            loginState : 0
         }
+    },
+    created() {
+        this.loginState = JSON.parse(localStorage.getItem('loginState'));
     },
     methods : {
         openLoginPopup() {
             console.log("로그인 창 띄움");
             this.loginPopupState = 1;
             this.$emit('_loginOpen');
+        },
+        logout() {
+            if (confirm("Logout 하시겠습니까? Logout 후에는 Home으로 이동합니다.")) {
+                axios
+                .delete('http://3.36.131.138/api/logout')
+                .then(() => {
+                    console.log("로그아웃 되었습니다.");
+                    localStorage.setItem('loginState', JSON.stringify(0)); //loginState 0으로 초기화 후 로컬스토리지에 다시 저장
+                    localStorage.setItem('userName', 'Welcome');
+                    // this.$router.push({name : 'Home'});
+                    this.$emit('_logout');
+                })
+                .catch(err => {
+                    console.log();
+                    console.log(err);
+                })
+            }
         }
     }
 }
