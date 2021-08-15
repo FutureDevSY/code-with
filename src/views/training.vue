@@ -181,15 +181,11 @@ export default {
     name : 'Training',
     props : ['_userId', '_course', '_stage', '_loginState'],
     mounted() {     //home에서 넘어오면서 사용자 course, stage데이터 넘어오도록
-      this.selectCourseData.userId = this._userId;
-      this.selectCourseData.course = this._course;
-      this.selectCourseData.stage = this._stage;
+      this.selectCourseData.course = JSON.parse(localStorage.getItem('courseData')).course;
+      this.selectCourseData.stage = JSON.parse(localStorage.getItem('courseData')).stage;
       
       console.log("selectCourseData.course:" + this.selectCourseData.course);
       console.log("selectCourseData.stage:" + this.selectCourseData.stage);
-      console.log("selectCourseData:" + this.selectCourseData);
-      console.log("loginState:" + this.login.loginState);
-    
     },  
     components : {
         codeEditorHtml, codeEditorCss, codeEditorJavascript, LoginPopup

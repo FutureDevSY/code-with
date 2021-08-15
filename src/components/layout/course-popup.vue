@@ -14,17 +14,17 @@
       <div class="tutorial">
         <div class="tutorial-moon"><img src="../../assets/img_cresent-moon-purple.svg" alt=""></div>
         <p>step1</p>
-        <button class="tutorial-step">튜토리얼</button>
+        <button class="tutorial-step" @click="startStage(1)">튜토리얼</button>
       </div>
       <div class="tutorial">
         <div class="tutorial-moon"><img src="../../assets/img_half-moon-purple.svg" alt=""></div>
         <p>step2</p>
-        <button class="tutorial-step">달력 만들기</button>
+        <button class="tutorial-step" @click="startStage(2)">달력 만들기</button>
       </div>
       <div class="tutorial">
         <div class="tutorial-moon"><img src="../../assets/img_full-moon-purple.svg" alt=""></div>
         <p>step3</p>
-        <button class="tutorial-step">회원가입 창 만들기</button>
+        <button class="tutorial-step" @click="startStage(3)">회원가입 창 만들기</button>
       </div>
     </div>
     <!-- 이어하기 버튼 -->
@@ -66,6 +66,29 @@ export default {
           console.log('코스 창 닫음');
           this.$emit('_courseClose')
         },
+        startStage(stage) {
+          this.selectCourseData.course = this._selectCourse;
+          this.selectCourseData.stage = stage;
+          switch (stage) {
+            case 1:
+              localStorage.setItem('courseData', JSON.stringify({'course' : this.selectCourseData.course, 'stage' : this.selectCourseData.stage}));
+              this.$router.push('Training');
+              break;
+            case 2:
+            case 3:
+              if (this.loginState == 1) {
+                localStorage.setItem('courseData', JSON.stringify({'course' : this.selectCourseData.course, 'stage' : this.selectCourseData.stage}));
+                this.$router.push('Training');
+              }else {
+                if (confirm("해당 단계를 실습하려면 로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?")) {
+                console.log();
+                this.closeCoursePopup();
+                this.$emit('_loginOpen');
+            }
+              }
+              break;
+          }
+        },
         continueCourse() {
           if (this.loginState == 1) {            
             axios
@@ -93,7 +116,7 @@ export default {
           this.selectCourseData.stage = 1;
           localStorage.setItem('courseData', JSON.stringify({'course' : this.selectCourseData.course, 'stage' : this.selectCourseData.stage}));
           this.$router.push('Training');
-        }
+        },
     }
 }
 </script>
