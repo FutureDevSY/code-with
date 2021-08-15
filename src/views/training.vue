@@ -201,7 +201,13 @@ var answerJs3 = require("../../src/assets/answerImg/3-3answer.png");
 export default {
     name : 'Training',
     props : ['_userId', '_course', '_stage', '_loginState'],
-    
+    mounted() {     //home에서 넘어오면서 사용자 course, stage데이터 넘어오도록
+      this.selectCourseData.course = JSON.parse(localStorage.getItem('courseData')).course;
+      this.selectCourseData.stage = JSON.parse(localStorage.getItem('courseData')).stage;
+      
+      console.log("selectCourseData.course:" + this.selectCourseData.course);
+      console.log("selectCourseData.stage:" + this.selectCourseData.stage);
+    },  
     components : {
         codeEditorHtml, codeEditorCss1, codeEditorCss2, codeEditorCss3, codeEditorJavascript1, codeEditorJavascript2, codeEditorJavascript3, LoginPopup, HeaderLight
     },
