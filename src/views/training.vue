@@ -305,6 +305,28 @@ export default {
         
       }
     },
+    created() {     //home에서 넘어오면서 사용자 course, stage데이터 넘어오도록
+      this.selectCourseData.course = JSON.parse(localStorage.getItem('courseData')).course;
+      this.selectCourseData.stage = JSON.parse(localStorage.getItem('courseData')).stage;
+      this.login.loginState = JSON.parse(localStorage.getItem('loginState'));
+      if (this.login.loginState == 1) { //로그인이 되었다면 유저 정보 요청해 id 알아오기, post시 이용
+        axios
+        .get("http://3.36.131.138/memberInfo") //로컬에서는 현재 실행 안될수도 있음 
+        .then(res => {
+          this.userId = res.data.userId;
+          console.log(res);
+          console.log("userId는:" + this.userId);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
+      // this.login.userName = JSON.parse(localStorage.getItem('userName'));  
+      console.log("loginState:" + this.login.loginState);
+      this.getHtmlCode();
+      this.onStageIng();
+      this.getScrap();
+    },
     methods: {
       addNewMemo(memo) {
         //localStorage.setItem(this.memo, JSON.stringify(value));
@@ -511,34 +533,6 @@ export default {
       },
 
     }, //여기까지 method
-
-    // mounted() {
-    // },
-
-    created() {     //home에서 넘어오면서 사용자 course, stage데이터 넘어오도록
-      axios
-        //로그인이 되었다면 유저 정보 요청해 id 알아오기, post시 이용 
-        .get("http://3.36.131.138/memberInfo") //로컬에서는 현재 실행 안될수도 있음 
-        .then(res => {
-          this.userId = res.data.userId;
-          console.log(res);
-          console.log("userId는:" + this.userId);
-        })
-        .catch(err => {
-          console.log(err);
-        }),
-      this.selectCourseData.course = this._course;
-      this.selectCourseData.stage = this._stage;
-      this.login.loginState = JSON.parse(localStorage.getItem('loginState'));
-      // this.login.userName = JSON.parse(localStorage.getItem('userName'));  
-      console.log("loginState:" + this.login.loginState);
-      this.getHtmlCode();
-      this.onStageIng();
-      this.getScrap();
-    }
-    
-    
-  
 };
 
 </script>
