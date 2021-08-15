@@ -27,18 +27,14 @@
         <button class="tutorial-step">회원가입 창 만들기</button>
       </div>
     </div>
-    <!-- 이어하기 버튼(for 로그인한 유저)-->
-    <router-link v-if="loginState == 1" :to="{name : 'Training', params : {_course : this.selectCourseData.course, _stage : this.selectCourseData.stage}}">
-      <img class="continue-btn" @click="continueCourse" src="../../assets/btn_continue.svg" alt="continue-btn">
-    </router-link>
     <!-- 이어하기 버튼 -->
-    <button v-if="loginState == 0">
-      <img class="continue-btn" @click="continueCourse" src="../../assets/btn_continue.svg" alt="continue-btn">
+    <button class="continue-btn">
+      <img @click="continueCourse" src="../../assets/btn_continue.svg" alt="continue-btn">
     </button>
     <!-- 처음부터 진행 버튼 -->
-    <router-link :to="{name : 'Training', params : {_course : this.selectCourseData.course, _stage : this.selectCourseData.stage}}">
-      <p class="start-first" @click="startCourse">처음부터 진행하기</p>
-    </router-link>
+    <button class="start-first">
+      <p @click="startCourse">처음부터 진행하기</p>
+    </button>
   </div>
 </div>
 </template>
@@ -64,7 +60,6 @@ export default {
     },
     created() {
       this.loginState = JSON.parse(localStorage.getItem('loginState'));
-      console.log(this.loginState);
     },
     methods : {
         closeCoursePopup() {
@@ -77,10 +72,9 @@ export default {
             .get("http://3.36.131.138/api/stageIng/" + this._selectCourse)
             .then(res => {
               console.log(res);
-              this.selectCourseData.userId = res.data.userId;
               this.selectCourseData.course = res.data.course;
               this.selectCourseData.stage = res.data.stage;
-              console.log(this.selectCourseData);
+              localStorage.setItem('courseData', JSON.stringify({'course' : this.selectCourseData.course, 'stage' : this.selectCourseData.stage}));
               this.$router.push('Training');
             })
             .catch(err => {
@@ -95,10 +89,10 @@ export default {
           }
         },
         startCourse() {
-          this.selectCourseData.userId = this._userName;
           this.selectCourseData.course = this._selectCourse;
           this.selectCourseData.stage = 1;
-          console.log(this.selectCourseData);
+          localStorage.setItem('courseData', JSON.stringify({'course' : this.selectCourseData.course, 'stage' : this.selectCourseData.stage}));
+          this.$router.push('Training');
         }
     }
 }
@@ -186,6 +180,7 @@ export default {
   font-size: 12.5px;
 }
 .continue-btn {
+  width: 100%;
   margin-top: 60px;
   cursor: pointer;
 }
@@ -194,8 +189,12 @@ export default {
   color: #656565;
   border-bottom: 1px solid #848484;
   margin: 10px auto;
-  padding-bottom: 5px;
+  padding: 0;
+  font-size: 15px;
+}
+.start-first p {
   cursor: pointer;
-  font-size: 15px
+  margin: 0;
+  padding-bottom: 5px;
 }
 </style>
