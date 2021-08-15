@@ -7,7 +7,7 @@
       <img class="hide-btn" @click="closeCoursePopup" src="../../assets/btn_close.svg" alt="">
     </div>
     <div class="windowTitle">
-      <h4 class="select-course-name">{{selectWindow}}</h4> <h4 class="process">Process</h4>
+      <h4 class="select-course-name">{{windowTitle[selectWindowIndex]}}</h4> <h4 class="process">Process</h4>
     </div>
     <p class="guide-to-start">시작할 단계를 선택하세요<br>이미 진행중인 프로세스가 있다면, 이어 진행하기가 가능합니다</p>
     <div class="tutorial-container">
@@ -48,7 +48,7 @@ export default {
     data() {
         return {
           loginState : 0,
-          selectWindow : this._selectWindow,
+          selectWindowIndex : this._selectCourse - 1,
           windowTitle : ['HTML', 'CSS', 'JavaScript'],
           selectCourseNumber : 1, // html : 1, css : 2, javascript : 3
           selectCourseData : {
