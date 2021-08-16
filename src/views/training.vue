@@ -143,18 +143,20 @@
           <p v-html="exData[nextBtnCount]" v-if="selectCourseData.course == 3"></p>
         </div>
         <div class="white-bg-btns">
-          <button type="button" class="prev-ex" @click="explainBefore">
-            <img
-              src="../assets/chevron-left-solid.svg"
-              alt="go to the page before"
-            />
-          </button>
-          <button type="button" class="next-ex" @click="explainNext" v-if="this.nextBtnCount != 2">
-            <img
-              src="../assets/chevron-right-solid.svg"
-              alt="go to the next page"
-            />
-          </button>
+          <div>
+            <button type="button" class="prev-ex" @click="explainBefore">
+              <img
+                src="../assets/chevron-left-solid.svg"
+                alt="go to the page before"
+              />
+            </button>
+            <button type="button" class="next-ex" @click="explainNext" v-if="this.nextBtnCount != 2">
+              <img
+                src="../assets/chevron-right-solid.svg"
+                alt="go to the next page"
+              />
+            </button>
+          </div>
           <button type="button" @click="modale = false" v-if="this.nextBtnCount != 2" class="skip-btn">
             설명 Skip
           </button>
@@ -309,23 +311,25 @@ export default {
       this.login.loginState = JSON.parse(localStorage.getItem('loginState'));
       console.log("selectCourseData.course:" + this.selectCourseData.course);
       console.log("selectCourseData.stage:" + this.selectCourseData.stage);
-      //this.login.userName = JSON.parse(localStorage.getItem('userName')); 
-      //if (this.login.loginState == 1) { //로그인이 되었다면 유저 정보 요청해 id 알아오기, post시 이용
-      axios
-      .get("http://3.36.131.138/memberInfo") //로컬에서는 현재 실행 안될수도 있음 
-      .then(res => {
-        this.userId = res.data.userId;
-        console.log(res);
-        console.log("userId는:" + this.userId);
-      })
-      .catch(err => {
-        console.log(err);
-      })
       console.log("loginState:" + this.login.loginState);
+      //this.login.userName = JSON.parse(localStorage.getItem('userName')); 
       this.getHtmlCode();
-      this.onStageIng();
-      this.getScrap();
 
+      if (this.login.loginState == 1) { //로그인이 되었다면 유저 정보 요청해 id 알아오기, post시 이용
+        axios
+        .get("http://3.36.131.138/memberInfo") //로컬에서는 현재 실행 안될수도 있음 
+        .then(res => {
+          this.userId = res.data.userId;
+          console.log(res);
+          console.log("userId는:" + this.userId);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        //진행중인 stage 저장, scrap 여부 받아오는것도 로그인 되어있어야 가능 
+        this.onStageIng();
+        this.getScrap();
+      }
     },
 
     methods: {
@@ -568,12 +572,15 @@ export default {
     --color_dark-gray: #898A8D;
 }
 
-@import url(https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.nanumsquare {
+    font-family: 'NanumSquare', sans-serif !important;
+}
 
 * {
   box-sizing: border-box;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  font-family: "SpoqaHanSans";
+  font-family: 'NanumSquare', sans-serif !important;
 }
 
 #training {
@@ -710,12 +717,14 @@ form {
   align-items: center;
   position: relative;
   margin: 8% 27% auto auto;
-  width: 49%;
+  width: 51%;
   height: 62%;
   background: linear-gradient(
     0deg,
-    rgba(180, 181, 208, 0.65) 0%,
-    rgba(204, 204, 216, 0.91) 20%,
+    /* rgba(180, 181, 208, 0.65) 0%,
+    rgba(204, 204, 216, 0.91) 20%, */
+    rgb(179 189 212 / 65%) 0%,
+    rgb(204 213 216 / 98%) 20%,
     rgb(255, 255, 255) 79%
   );
   border-radius: 20px;
@@ -725,9 +734,10 @@ form {
   height: 618px; */
 .white-bg-training h1 {
   margin: 0;
+  margin-right: 30px;
   /* position: relative; */
   font-weight: normal;
-  font-size: 29px;
+  font-size: 25px;
 }
 
 .white-bg-training::before {
@@ -775,14 +785,14 @@ form {
   height: 60px;
 }
 .white-bg-btns {
-  height: 66px; width:auto;
+  height: 81px; width:58%;
   background: none;
   border: none;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 38%;
 }
 .white-bg-btns img:hover {
   transform: scale(1.15);
@@ -790,15 +800,13 @@ form {
 }
 
 .skip-btn {
-  width: 70px;
+  width: auto; height: auto;
   padding: 0;
   font-size: 17px; font-weight: bolder;
-  color: #6F47FF;
+  color: #431AD7;
   background: none;
   border-radius: 5px;
-  position: absolute;
-  left: 87%;
-  bottom: 5%;
+  margin-top: 10%;
 }
 
 /*설명,정답버튼, 밑에있는 버튼 등 middle section  */
@@ -918,7 +926,7 @@ footer img:hover {
 .right-section nav h3 {
   display: flex;
   font-size: 17px;
-  color: #d4d2db;
+  color: #FFFFFF;
   font-weight:bolder;
 }
 .log-btn {
@@ -931,7 +939,7 @@ footer img:hover {
   background: none;
   border: none;
   font-size: 16px;
-  color:#d4d2db;
+  color:#ffffff;
 }
 .sign-up-btn::after {
   content: "";
@@ -949,7 +957,7 @@ footer img:hover {
   margin: 0;
   margin-right: 15px;
   font-size: 16px;
-  color:#d4d2db;
+  color:#ffffff;
 }
 .log-btn .login-btn::after {
   content: "";
@@ -958,21 +966,21 @@ footer img:hover {
   margin-right: auto; margin-left: auto;
   width: 4px; height: 4px;
   border-radius: 50%;
-  background:#d4d2db;
+  background:rgb(112 207 255);
 }
 .mypage-btn {
-  color: #d4d2db;
+  color: #ffffff;
   font-weight:bolder;
   border: none;
   background: none;
-  font-size: 16px;
+  font-size: 18px;
 }
 .mypage-btn::after {
   content: "";
   float: right;
   width: 1.5px;
   height: 22px;
-  background: rgb(116, 116, 116);
+  background: rgb(112 207 255);
   margin-left: 14px;
 }
 
