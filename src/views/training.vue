@@ -77,9 +77,9 @@
           <button type="button" class="login-btn" v-if="login.loginState == 0" @click="loginOpen">
             Login
           </button>
-          <button type="button" class="sign-up-btn" v-if="login.loginState == 0" :to="{ name: 'Signup' }" @click="$router.push({name: 'Signup'})">
+          <router-link type="button" class="sign-up-btn" v-if="login.loginState == 0" :to="{ name: 'Signup' }" @click="$router.push({name: 'Signup'})">
             Sign-Up
-          </button>
+          </router-link>
         </div>
         <div><!--로그인 했을 경우 보임-->
           <button type="button">
@@ -358,15 +358,18 @@ export default {
       pageNext(){ //다음 stage로 넘어가는 버튼
         console.log("pagenext실행");
         if(this.login.loginState == 1){
-          this.selectCourseData.stage++;  //다음 stage 진행 
+          this.selectCourseData.stage++;  //다음 stage 진행
+          this.modale = true; 
         }else{
+          this.modale = false;
           if (confirm("다음 단계를 실습하려면 로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?")) {
             this.loginPopupState = 1;
           }
         }
         if (this.selectCourseData.stage == 4) {
           this.selectCourseData.course++; //다음 course로 넘어감
-          this.selectCourseData.stage = 1; //다음 course의 stage1부터 시작 
+          this.selectCourseData.stage = 1; //다음 course의 stage1부터 시작
+          this.modale = true; 
         } 
         if (this.selectCourseData.course == 4) { //3-3에서 pageNext버튼 눌렀을시
           this.selectCourseData.course = 3; //3 초과하는 수는 유효X
@@ -375,7 +378,6 @@ export default {
           this.selectCourseData.stage = 3; //그대로 머물러 있게 하기 위함 
         }
         this.getHtmlCode();
-        this.modale = true;
       },
 
       pageBefore(){ //이전 stage로 돌아가는 버튼

@@ -132,7 +132,7 @@ export default {
     background-size:cover;
     background-repeat: no-repeat;
     padding: 20px;
-    margin-bottom: 40px;
+    padding-bottom: 40px;
 }
 div {
   box-sizing: border-box;
